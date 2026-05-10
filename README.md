@@ -169,22 +169,6 @@ Covers the pure-Python pieces (text/regex/alignment/position/n-gram). The ASR la
 
 ---
 
-## What was modernized vs. the original notebook
-
-| # | Bug | Fix |
-|---|-----|-----|
-| 1 | `\b…\b` regex never matched Devanagari, so `make_clean` was a silent no-op | Lookarounds against whitespace/punctuation in `disfluency/text.py` |
-| 2 | Per-word Whisper log-probs were misaligned by `prompt_len − 1` tokens | `model.compute_transition_scores` in `disfluency/asr.py` |
-| 3 | Deprecated `forced_decoder_ids=` path on `generate()` | Modern `language="hi", task="transcribe"` kwargs |
-| 4 | Global `torch.set_grad_enabled(False)` leaked state | `with torch.inference_mode():` scoped |
-| 5 | `apply_insertions` ordering was unstable for same-position duplicates | Stable sort using enumerated original index |
-| 6 | Single pickle ASR cache (whole-run failure if corrupted) | Per-id JSON shards in `disfluency/cache.py` |
-| 7 | Notebook globals → not unit-testable | `disfluency/` package + 18 pytest cases |
-| 8 | Hard-coded `/kaggle/input/...` paths | Required CLI flags |
-| 9 | No deps file, no seed pinning | `pyproject.toml` + `--seed` flag |
-
----
-
 ## Roadmap
 
 - [ ] Local 90/10 eval + ablation script
